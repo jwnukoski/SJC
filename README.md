@@ -8,3 +8,4 @@ TODO:
 - Coloring.
 - More user commands.
 - General testing.
+- Encryption / passwords.
