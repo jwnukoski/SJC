@@ -3,6 +3,7 @@ package server;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.Main;
 
 // Class handles creating the different main threads
 public class Server {
@@ -18,12 +19,15 @@ public class Server {
 	private Functions functionsInstance = null; // back-end processes
 	
 	private ExecutorService exSrv = Executors.newCachedThreadPool();
+	
+	private Main mainInstance = null;
 
-	public Server(String _serverPort) {
+	public Server(String _serverPort, Main _mainInstance) {
 		instance = this;
+		mainInstance = _mainInstance;
 		
 		serverPort = Integer.parseInt(_serverPort);
-		System.out.println("Set server port to: " + _serverPort);
+		Server.instance.getMain().getTerm().debug("Set server port to: " + serverPort);
 		
 		functionsInstance = new Functions();
 		exSrv.submit(functionsInstance);
@@ -41,7 +45,7 @@ public class Server {
 			functionsInstance = null;
 		} 
 		catch (Exception e) {
-			System.out.println("Could not close something in finalize:" + e);
+			Server.instance.getMain().getTerm().debug("Could not close something in finalize:" + e);
 			System.exit(-1);
 		}
 	}
@@ -56,6 +60,12 @@ public class Server {
 	}
 	public ExecutorService getExSrv() {
 		return exSrv;
+	}
+	public Main getMain() {
+		// here so we don't have to import main to every class using terminal
+		// Client.getMain().getTerm().print();
+		// Client.getMain().getTerm().debug();
+		return mainInstance;
 	}
 	public void kill() {
 		this.finalize();

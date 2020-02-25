@@ -9,7 +9,11 @@ public class Help {
 			+ "\n\n"
 			+ "Server Usage:"
 			+ "\n"
-			+ "--server [server port]";
+			+ "--server [server port]"
+			+ "\n"
+			+ "--colors (Default is disabled, use to enable)"
+			+ "\n"
+			+ "--debug (Default is disabled, use to enable. Mostly only useful for servers.)";
 	
 	public static void printHelpDoc() {
 		System.out.println(helpDoc);

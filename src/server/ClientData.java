@@ -11,12 +11,14 @@ public class ClientData {
 	private OutputThread outputThread = null; // the output thread for this client on the server
 	private Socket clientSocket = null;
 	private String clientIpAddress = "";
+	private int colorId = 0;
 	
 	public ClientData(int _id, Socket _clientSocket, String _clientIpAddress) {
 		// Status should remain blank at creation. 'finished' to be marked for removal.
 		id = _id;
 		clientSocket = _clientSocket;
 		clientIpAddress = _clientIpAddress;
+		colorId = Server.instance.getMain().getTerm().getRandomColorId();
 		
 		// Threads
 		inputThread = new InputThread(this);
@@ -26,7 +28,7 @@ public class ClientData {
 		Server.instance.getExSrv().submit(inputThread);
 		Server.instance.getExSrv().submit(outputThread);
 		
-		System.out.println("Client connected from: " + clientIpAddress);
+		Server.instance.getMain().getTerm().debug("Client connected from: " + clientIpAddress);
 	}
 	public String getName() {
 		return name;
@@ -44,10 +46,14 @@ public class ClientData {
 	public Socket getSocket() {
 		return clientSocket;
 	}
+	public int getColorId() {
+		return colorId;
+	}
 	public void kill() {
 		id = -1;
 		name = "";
 		clientIpAddress = "";
+		colorId = 0;
 		
 		inputThread.kill();
 		inputThread = null;

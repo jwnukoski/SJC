@@ -8,6 +8,10 @@ public class OutputThread implements Runnable {
 	private Message[] msgs = new Message[Server.clientMsgQueue]; // Message queue. May need to increase for busy servers
 	private PrintWriter pw = null;
 	
+	// For formatting messages. Colors need to be enabled on both server and client
+	private final String ANSI_RESET = Server.instance.getMain().getTerm().getAnsiReset();
+	private final boolean colorsEnabled = Server.instance.getMain().getTerm().getColorsEnabled();
+	
 	public OutputThread(ClientData _client) {
 		client = _client;
 	}
@@ -15,7 +19,7 @@ public class OutputThread implements Runnable {
 		try {
 			pw = new PrintWriter(client.getSocket().getOutputStream(), true);
 		} catch (IOException e) {
-			System.out.println("Printwriter failed to start in output thread: " + e);
+			Server.instance.getMain().getTerm().debug("Printwriter failed to start in output thread: " + e);
 		}
 		
 		while (client.getSocket() != null) {
@@ -23,7 +27,12 @@ public class OutputThread implements Runnable {
 				// Print message queue
 				for (var i = 0; i < msgs.length; i++) {
 					if (msgs[i] != null) {
-						pw.println(msgs[i].getFrom() + ": " + msgs[i].getMsg()); // print message to user
+						if (colorsEnabled) {
+							final String clientMsgColors = Server.instance.getMain().getTerm().getColorScheme(msgs[i].getFromClient().getColorId());
+							pw.println(clientMsgColors + msgs[i].getFromName() + ": " + msgs[i].getMsg() + ANSI_RESET); // print message to user
+						} else {
+							pw.println(msgs[i].getFromName() + ": " + msgs[i].getMsg()); // print message to user
+						}
 						msgs[i] = null; // clear from list
 					}
 				}
@@ -31,11 +40,11 @@ public class OutputThread implements Runnable {
 				// slow down, may need to lower for busier servers
 				try {
 					Thread.sleep(Server.messageInterval);
-				} catch (Exception e1) {
-					System.out.println(e1);
+				} catch (Exception e) {
+					Server.instance.getMain().getTerm().debug("Error with sleep in OutputThread: " + e);
 				}
 			} catch (Exception e) {
-				System.out.println("Could not connect to send notification. Closing thread.");
+				Server.instance.getMain().getTerm().debug("Could not connect to send notification. Closing thread.");
 				break;
 			}
 		}

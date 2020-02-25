@@ -3,6 +3,7 @@ package client;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.net.Socket;
+import com.Main;
 
 
 public class Client {
@@ -16,8 +17,11 @@ public class Client {
 	
 	private Socket socket = null;
 	
-	public Client(String _serverIp, String _serverPort) {
+	private Main mainInstance = null;
+	
+	public Client(String _serverIp, String _serverPort, Main _main) {
 		instance = this;
+		mainInstance = _main;
 		
 		serverIp = _serverIp;
 		serverPort = Integer.parseInt(_serverPort);
@@ -80,6 +84,12 @@ public class Client {
 	}
 	public Socket getSocket() {
 		return socket;
+	}
+	public Main getMain() {
+		// here so we don't have to import main to every class using terminal
+		// Client.getMain().getTerm().print();
+		// Client.getMain().getTerm().debug();
+		return mainInstance;
 	}
 	public void kill() {
 		finalize();

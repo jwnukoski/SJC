@@ -2,7 +2,7 @@ package server;
 
 import java.net.Socket;
 
-// Runs back-end processes
+// Runs back-end processing
 public class Functions implements Runnable {
 	private ClientData[] clients = new ClientData[Server.maxConnections]; // Change number for more connections
 	private final Command[] commands = {new Command("/name", "Set your username. Ex: /name John"),
@@ -11,7 +11,7 @@ public class Functions implements Runnable {
 	public void run() {
 		
 	}
-	public void sendMsg(String _msg, String _to, String _from) {
+	public void sendMsg(String _msg, String _to, ClientData _from) {
 		Message msg = new Message(_msg, _to, _from);
 		
 		// Send message to all clients
@@ -21,7 +21,7 @@ public class Functions implements Runnable {
 					// Private messages and public messages
 					boolean sent = clients[i].sendMsg(msg);
 					
-					// needed
+					// needed?
 					if (!sent) {
 						// message wasn't added to client queue, remove client?
 						clients[i].kill();
@@ -71,7 +71,7 @@ public class Functions implements Runnable {
 		} else if (_msg.contains("/help")) {
 			for (int i = 0; i < commands.length; i++) {
 				final String helpList = (commands[i].getCmdWord() + " - " + commands[i].getDescription() + "\n");
-				sendMsg(helpList, _client.getName(), "SERVER");
+				sendMsg(helpList, _client.getName(), _client);
 			}
 		}
 		return true;

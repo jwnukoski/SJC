@@ -17,13 +17,13 @@ public class InputThread implements Runnable {
 		try {
 			br = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
 		} catch (IOException e) {
-			System.out.println("Client buffer reader failed to start in input thread: " + e);
+			Server.instance.getMain().getTerm().debug("Client buffer reader failed to start in input thread: " + e);
 		}
 		
 		try {
 			pw = new PrintWriter(client.getSocket().getOutputStream(), true);
 		} catch (IOException e) {
-			System.out.println("Client print writer failed to start in input thread: " + e);
+			Server.instance.getMain().getTerm().debug("Client print writer failed to start in input thread: " + e);
 		}
 		
 		// Welcome message
@@ -36,10 +36,10 @@ public class InputThread implements Runnable {
 				if (Server.instance.getFunctionsInstance().isCommand(clientMsg)) {
 					Server.instance.getFunctionsInstance().processCommand(clientMsg, client);
 				} else {
-					Server.instance.getFunctionsInstance().sendMsg(clientMsg, "PUBLIC", client.getName()); // send message to all clients
+					Server.instance.getFunctionsInstance().sendMsg(clientMsg, "PUBLIC", client); // send message to all clients
 				}
 			} catch (IOException e) {
-				System.out.println("Error in client input thread: " + e);
+				Server.instance.getMain().getTerm().debug("Error in client input thread: " + e);
 				break;
 			}
 		}
