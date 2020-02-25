@@ -6,6 +6,7 @@ import server.Server;
 public class Main {
 	public static Main instance = null;
 	private Terminal terminalInstance = null;
+	public final String entryName = "Anonymous"; // Base name used when first joining servers.
 	
 	// Start
 	public static void main(String[] args) {
@@ -20,7 +21,6 @@ public class Main {
 		for (var i = 0; i < args.length; i++) {
 			if (args[i].contentEquals("--colors")) {
 				terminalColors = true;
-				System.out.println("Colors enabled");
 			} else if (args[i].contentEquals("--debug")) {
 				terminalDebug = true;
 			}

@@ -32,9 +32,9 @@ public class OutputThread implements Runnable {
 						if (serverColorsEnabled && client.getColorsEnabled()) {
 							final int clientColorId = msgs[i].getFromClient().getColorId();
 							final String clientColorScheme = Server.instance.getMain().getTerm().getColorScheme(clientColorId);
-							pw.println(clientColorScheme + msgs[i].getFromName() + ": " + msgs[i].getMsg() + ANSI_RESET); // print message to user
+							pw.println(clientColorScheme + msgs[i].getFromName() + ": " + msgs[i].getMsg() + ANSI_RESET); // print message to user with color
 						} else {
-							pw.println(msgs[i].getFromName() + ": " + msgs[i].getMsg()); // print message to user
+							pw.println(msgs[i].getFromName() + ": " + msgs[i].getMsg()); // print message to user no color
 						}
 						msgs[i] = null; // clear from list
 					}

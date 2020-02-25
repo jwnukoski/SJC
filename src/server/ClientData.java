@@ -2,11 +2,13 @@ package server;
 
 import java.net.Socket;
 
+import com.Main;
+
 // Class that contains info for each client, so the server can keep a list of them and other data.
 // Main class for interacting with clients and their threads
 public class ClientData {
 	private int id = 0; // the index of this client in the functions clients list
-	private String name = "Anonymous"; // display name
+	private String name = Main.instance.entryName; // display name
 	private InputThread inputThread = null; // the input thread for this client on the server
 	private OutputThread outputThread = null; // the output thread for this client on the server
 	private Socket clientSocket = null;

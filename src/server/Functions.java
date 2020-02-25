@@ -1,6 +1,9 @@
 package server;
 
 import java.net.Socket;
+import java.util.Random;
+
+import com.Main;
 
 // Runs back-end processing
 public class Functions implements Runnable {
@@ -8,11 +11,12 @@ public class Functions implements Runnable {
 	private final Command[] commands = {new Command("/name", "Set your username. Ex: /name John"),
 			new Command("/help", "Get a list of user commands."),
 			new Command("/colors", "Enables or disables terminal colors. Ex: /colors yes, /colors no")};
-
+	
 	public void run() {
 		
 	}
 	public void sendMsg(String _msg, String _to, ClientData _from) {
+		// Set _from to null for server messages
 		Message msg = new Message(_msg, _to, _from);
 		
 		// Send message to all clients
@@ -67,9 +71,14 @@ public class Functions implements Runnable {
 	public boolean processCommand(String _msg, ClientData _client) {
 		// User command processing
 		if (_msg.startsWith("/name")) {
-			// change name of client
-			String name = _msg.substring(5, _msg.length());
+			// Change name of client, must be unique. Append number if not.
+			String oldName = _client.getName();
+			String name = _msg.substring(6, _msg.length());
+			while (nameExists(name)) {
+				name += getRandomNameId();
+			}
 			_client.setName(name);
+			sendMsg(oldName + "I changed their name to: " + name, "PUBLIC", _client);
 			return true;
 		} else if (_msg.contentEquals("/help")) {
 			// display help info to client only
@@ -77,6 +86,7 @@ public class Functions implements Runnable {
 				final String helpList = (commands[i].getCmdWord() + " - " + commands[i].getDescription() + "\n");
 				sendMsg(helpList, _client.getName(), _client);
 			}
+			return true;
 		} else if (_msg.contentEquals("/colors no")) {
 			// turn terminal colors off for client
 			_client.setColorsEnabled(false);
@@ -87,5 +97,24 @@ public class Functions implements Runnable {
 			return true;
 		}
 		return true;
+	}
+	private boolean nameExists(String _nameToCheck) {
+		// Checks to see if the name for the client already exists
+		for (var i = 0; i < clients.length; i++) {
+			if (clients[i] != null) {
+				final String clientName = clients[i].getName();
+				if (_nameToCheck.contentEquals(clientName)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	private int getRandomNameId() {
+		// For anonymous users entering, so names don't match
+		final int min = 0;
+		final int max = 9;
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
 	}
 }

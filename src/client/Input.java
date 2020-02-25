@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.Main;
+
 // Handles user input to server
 public class Input implements Runnable {
 	private BufferedReader br = null; // reading user input
@@ -26,10 +28,11 @@ public class Input implements Runnable {
 		if (Client.instance.getSocket() != null && br != null && pr != null) {
 			try {
 				if (Client.instance.getMain().getTerm().getColorsEnabled()) {
-					pr.println("/colors no");
-				} else {
 					pr.println("/colors yes");
+				} else {
+					pr.println("/colors no");
 				}
+				pr.println("/name " + Main.instance.entryName);
 			} catch (Exception e) {
 				System.out.println("Error sending intial info. Client settings will default: " + e);
 			}
