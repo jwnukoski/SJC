@@ -8,6 +8,8 @@ import com.Main;
 
 public class Client {
 	public static Client instance = null;
+	private Main mainInstance = null;
+	
 	private String serverIp = "";
 	private int serverPort = 0;
 	
@@ -16,8 +18,6 @@ public class Client {
 	private ExecutorService exSrv = Executors.newCachedThreadPool();
 	
 	private Socket socket = null;
-	
-	private Main mainInstance = null;
 	
 	public Client(String _serverIp, String _serverPort, Main _main) {
 		instance = this;

@@ -12,12 +12,11 @@ public class ClientData {
 	private Socket clientSocket = null;
 	private String clientIpAddress = "";
 	private int colorId = 0;
+	private boolean colorsEnabled = false;
 	
 	public ClientData(int _id, Socket _clientSocket, String _clientIpAddress) {
-		// Status should remain blank at creation. 'finished' to be marked for removal.
 		id = _id;
 		clientSocket = _clientSocket;
-		clientIpAddress = _clientIpAddress;
 		colorId = Server.instance.getMain().getTerm().getRandomColorId();
 		
 		// Threads
@@ -27,7 +26,9 @@ public class ClientData {
 		// Add threads
 		Server.instance.getExSrv().submit(inputThread);
 		Server.instance.getExSrv().submit(outputThread);
-		
+
+		// Log IP
+		clientIpAddress = _clientIpAddress;
 		Server.instance.getMain().getTerm().debug("Client connected from: " + clientIpAddress);
 	}
 	public String getName() {
@@ -48,6 +49,12 @@ public class ClientData {
 	}
 	public int getColorId() {
 		return colorId;
+	}
+	public boolean getColorsEnabled() {
+		return colorsEnabled;
+	}
+	public void setColorsEnabled(boolean _colorsEnabled) {
+		colorsEnabled = _colorsEnabled;
 	}
 	public void kill() {
 		id = -1;

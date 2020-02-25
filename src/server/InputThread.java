@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+// Thread for every client
+// Reads client messages and sends them to the server
 public class InputThread implements Runnable {
 	private ClientData client = null;
 	private BufferedReader br = null;

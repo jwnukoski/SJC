@@ -17,7 +17,7 @@ public class Output implements Runnable {
 		while (Client.instance.getSocket() != null && br != null) {
 			try {
 				String serverMsg = br.readLine();
-
+				
 				if (serverMsg == null) {
 					System.out.println("Connection lost.");
 					break;

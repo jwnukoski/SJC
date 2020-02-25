@@ -3,7 +3,7 @@ package server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-// Handles all requests from clients and their threads. Commands and etc
+// Handles client connections and adding them to the threads.
 public class ClientHandler implements Runnable {
 	private ServerSocket serverSocket = null;
 	private boolean run = true;

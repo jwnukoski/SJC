@@ -3,14 +3,16 @@ package server;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+// Thread for every client
+// Receives data from server and sends it for display
 public class OutputThread implements Runnable {
 	private ClientData client = null;
 	private Message[] msgs = new Message[Server.clientMsgQueue]; // Message queue. May need to increase for busy servers
 	private PrintWriter pw = null;
 	
 	// For formatting messages. Colors need to be enabled on both server and client
-	private final String ANSI_RESET = Server.instance.getMain().getTerm().getAnsiReset();
-	private final boolean colorsEnabled = Server.instance.getMain().getTerm().getColorsEnabled();
+	private String ANSI_RESET = Server.instance.getMain().getTerm().getAnsiReset();
+	private boolean serverColorsEnabled = Server.instance.getMain().getTerm().getColorsEnabled();
 	
 	public OutputThread(ClientData _client) {
 		client = _client;
@@ -24,12 +26,13 @@ public class OutputThread implements Runnable {
 		
 		while (client.getSocket() != null) {
 			try {
-				// Print message queue
+				// Loop message queue and send to necessary clients
 				for (var i = 0; i < msgs.length; i++) {
 					if (msgs[i] != null) {
-						if (colorsEnabled) {
-							final String clientMsgColors = Server.instance.getMain().getTerm().getColorScheme(msgs[i].getFromClient().getColorId());
-							pw.println(clientMsgColors + msgs[i].getFromName() + ": " + msgs[i].getMsg() + ANSI_RESET); // print message to user
+						if (serverColorsEnabled && client.getColorsEnabled()) {
+							final int clientColorId = msgs[i].getFromClient().getColorId();
+							final String clientColorScheme = Server.instance.getMain().getTerm().getColorScheme(clientColorId);
+							pw.println(clientColorScheme + msgs[i].getFromName() + ": " + msgs[i].getMsg() + ANSI_RESET); // print message to user
 						} else {
 							pw.println(msgs[i].getFromName() + ": " + msgs[i].getMsg()); // print message to user
 						}

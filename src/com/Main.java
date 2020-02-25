@@ -20,6 +20,7 @@ public class Main {
 		for (var i = 0; i < args.length; i++) {
 			if (args[i].contentEquals("--colors")) {
 				terminalColors = true;
+				System.out.println("Colors enabled");
 			} else if (args[i].contentEquals("--debug")) {
 				terminalDebug = true;
 			}
