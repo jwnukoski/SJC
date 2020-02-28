@@ -6,7 +6,7 @@ import java.net.Socket;
 // Handles client connections and adding them to the threads.
 public class ClientHandler implements Runnable {
 	private ServerSocket serverSocket = null;
-	private boolean run = true;
+	private boolean alive = true;
 	
 	public ClientHandler() {}
 	public void run() {
@@ -16,7 +16,7 @@ public class ClientHandler implements Runnable {
 				serverSocket = new ServerSocket(Server.instance.getServerPort());
 				System.out.println("Port " + Server.instance.getServerPort() + " opened for clients.");
 
-				while (run) {
+				while (alive) {
 					try {
 						Socket clientSocket = serverSocket.accept(); // new socket
 						Server.instance.getFunctionsInstance().addClient(clientSocket, clientSocket.getRemoteSocketAddress().toString()); // add to clients list in functions, and create everything
@@ -41,6 +41,7 @@ public class ClientHandler implements Runnable {
 		}
 	}
 	protected void finalize() {
+		alive = false;
 		try {
 			serverSocket.close();
 		} catch (Exception e) {

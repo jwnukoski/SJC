@@ -32,7 +32,6 @@ public class Input implements Runnable {
 				} else {
 					pr.println("/colors no");
 				}
-				pr.println("/name " + Main.instance.entryName);
 			} catch (Exception e) {
 				System.out.println("Error sending intial info. Client settings will default: " + e);
 			}
@@ -40,7 +39,6 @@ public class Input implements Runnable {
 		// Main loop
 		while (Client.instance.getSocket() != null && br != null && pr != null) {
 			try {
-				
 				String msg = br.readLine(); // read user input (loop)
 				if (msg.contentEquals("/quit")) {
 					System.out.println("Quitting...");

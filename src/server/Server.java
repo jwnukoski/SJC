@@ -9,8 +9,9 @@ import com.Main;
 public class Server {
 	// Increase these for busier servers
 	public static final int maxConnections = 100;
-	public static final int messageInterval = 100;
+	public static final int messageInterval = 1000;
 	public static final int clientMsgQueue = 100;
+	public static final int clientIdleTime = 900; // about 15 minutes
 	
 	public static Server instance = null;
 	private int serverPort = 0;
@@ -30,11 +31,10 @@ public class Server {
 		Server.instance.getMain().getTerm().debug("Set server port to: " + serverPort);
 		
 		functionsInstance = new Functions();
-		exSrv.submit(functionsInstance);
+		
+		// Thread handles client connections then makes their individual threads
 		clientHandlerInstance = new ClientHandler();
 		exSrv.submit(clientHandlerInstance);
-		//notifyHandler = new NotifyHandler();
-		//exSrv.submit(notifyHandler);
 	}
 	protected void finalize() {
 		try {
@@ -66,6 +66,10 @@ public class Server {
 		// Client.getMain().getTerm().print();
 		// Client.getMain().getTerm().debug();
 		return mainInstance;
+	}
+	public void sendServerMsg(String _msg) {
+		// send a message to all connected clients
+		
 	}
 	public void kill() {
 		this.finalize();

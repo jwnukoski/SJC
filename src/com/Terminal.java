@@ -55,7 +55,7 @@ public class Terminal {
 	}
 	public int getRandomColorId() {
 		final int min = 0;
-		int max = colorsFG.length;
+		int max = colorsFG.length - 1;
 		if (colorsBG.length < max) {
 			max = colorsBG.length;
 		}
