@@ -86,8 +86,10 @@ public class ClientData {
 			if (idleTime < Server.clientIdleTime) {
 				idleTime++;
 			} else {
-				isIdle = true;
-				Server.instance.getFunctionsInstance().sendServerMsg(name + " went idle.");
+				if (!isIdle) {
+					isIdle = true;
+					Server.instance.getFunctionsInstance().sendServerMsg(name + " went idle.");
+				}
 			}
 		} else {
 			if (isIdle) {

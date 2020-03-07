@@ -22,7 +22,7 @@ public class Functions {
 	public void sendMsg(String _msg, String _to, ClientData _from) {
 		// For PMs and public messages from clients
 		// Send message to clients
-		for (var i = 0; i < clients.length; i++) {
+		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null) {
 				// Send if a PM to this user or PUBLIC
 				if (clients[i].getName().contentEquals(_to) || _to.contentEquals("PUBLIC")) {
@@ -40,7 +40,7 @@ public class Functions {
 	}
 	public boolean sendServerMsg(String _msg) {
 		// for messages to all clients from the server
-		for (var i = 0; i < clients.length; i++) {
+		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null && clients[i].getAlive()) {
 				clients[i].sendServerMsg(_msg);
 			}
@@ -49,7 +49,7 @@ public class Functions {
 	}
 	public boolean addClient(Socket _clientSocket, String _clientIpAddress) {
 		// Creates clients and their threads, adds to list to keep track
-		for (var i = 0; i < clients.length; i++) {
+		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] == null) {
 				clients[i] = new ClientData(i, _clientSocket, _clientIpAddress);
 				return true;
@@ -66,7 +66,7 @@ public class Functions {
 		return false;
 	}
 	public boolean isCommand(String _msg) {
-		for (var i = 0; i < commands.length; i++) {
+		for (int i = 0; i < commands.length; i++) {
 			if (_msg.contains(commands[i].getCmdWord())) {
 				return true;
 			}
@@ -75,7 +75,7 @@ public class Functions {
 	}
 	public void kill() {
 		// clear clients
-		for (var i = 0; i < clients.length; i++) {
+		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null) {
 				clients[i].kill();
 				clients[i] = null;
@@ -136,7 +136,7 @@ public class Functions {
 	}
 	private boolean nameExists(String _nameToCheck) {
 		// Checks to see if the name for the client already exists
-		for (var i = 0; i < clients.length; i++) {
+		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null) {
 				final String clientName = clients[i].getName();
 				if (_nameToCheck.contentEquals(clientName)) {

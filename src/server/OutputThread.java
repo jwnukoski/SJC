@@ -14,7 +14,7 @@ public class OutputThread implements Runnable {
 	private PrintWriter pw = null;
 	private boolean alive = true;
 
-	// Variables that a user can change
+	// intiables that a user can change
 	private String ANSI_RESET = "";
 	private boolean serverColorsEnabled = false;
 	private boolean clientColorsEnabled = false;
@@ -39,7 +39,7 @@ public class OutputThread implements Runnable {
 
 			// Print client messages
 			try {
-				for (var i = 0; i < msgs.length; i++) {
+				for (int i = 0; i < msgs.length; i++) {
 					if (msgs[i] != null) {
 						String from = msgs[i].getFromName();
 						String msg = msgs[i].getMsg();
@@ -93,7 +93,7 @@ public class OutputThread implements Runnable {
 
 
 			// Print server messages
-			for (var i = 0; i < serverMsgs.length; i++) {
+			for (int i = 0; i < serverMsgs.length; i++) {
 				if (serverMsgs[i] != null) {
 					pw.println("SERVER MESSAGE: " + serverMsgs[i]);
 					serverMsgs[i] = null;
@@ -114,7 +114,7 @@ public class OutputThread implements Runnable {
 	}
 	public boolean queueMsg(String _msg, String _to, ClientData _from) {
 		if (client != null && client.getAlive()) {
-			for (var i = 0; i < msgs.length; i++) {
+			for (int i = 0; i < msgs.length; i++) {
 				if (msgs[i] == null) {
 					Message msg = new Message(_msg, _to, _from);
 					msgs[i] = msg;
@@ -132,7 +132,7 @@ public class OutputThread implements Runnable {
 	public boolean queueServerMsg(String _msg) {
 		// queue up a server message in an empty slot
 		if (client != null && client.getAlive()) {
-			for (var i = 0; i < serverMsgs.length; i++) {
+			for (int i = 0; i < serverMsgs.length; i++) {
 				if (serverMsgs[i] == null) {
 					serverMsgs[i] = _msg;
 					return true;
@@ -157,13 +157,13 @@ public class OutputThread implements Runnable {
 		pw = null;
 
 		// drop all messages
-		for (var i = 0; i < msgs.length; i++) {
+		for (int i = 0; i < msgs.length; i++) {
 			msgs[i] = null;
 		}
 		msgs = null;
 
 		// drop all server messages
-		for (var i = 0; i < serverMsgs.length; i++) {
+		for (int i = 0; i < serverMsgs.length; i++) {
 			serverMsgs[i] = null;
 		}
 		serverMsgs = null;

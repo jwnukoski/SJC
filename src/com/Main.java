@@ -18,7 +18,7 @@ public class Main {
 		// Check all arguments for colors and options. Start 'terminal' first.
 		boolean terminalColors = false;
 		boolean terminalDebug = false;
-		for (var i = 0; i < args.length; i++) {
+		for (int i = 0; i < args.length; i++) {
 			if (args[i].contentEquals("--colors")) {
 				terminalColors = true;
 			} else if (args[i].contentEquals("--debug")) {
