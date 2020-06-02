@@ -3,6 +3,8 @@ package client;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import com.Encryption;
+
 // Handles writing all users messages to this user.
 public class Output implements Runnable {
 	private BufferedReader br = null; // reading server output
@@ -22,7 +24,7 @@ public class Output implements Runnable {
 					System.out.println("Connection lost.");
 					break;
 				} else {
-					System.out.println(serverMsg); // print message to client
+					System.out.println(Encryption.decrypt(serverMsg)); // print message to client
 				}
 			} catch (Exception e) {}
 		}

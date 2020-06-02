@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.Encryption;
 import com.Main;
 
 // Thread for every client
@@ -34,7 +35,7 @@ public class InputThread implements Runnable {
 
 			while (client != null && client.getSocket() != null && client.getAlive()) {
 				try {
-					String clientMsg = br.readLine(); // Read client messages
+					String clientMsg = Encryption.decrypt(br.readLine()); // Read client messages
 					if (clientMsg != null) {
 						Server.instance.getMain().getTerm().debug("Client: " + client.getName() + ". Sent message: " + clientMsg);
 						if (Server.instance.getFunctionsInstance().isCommand(clientMsg)) {

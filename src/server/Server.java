@@ -4,6 +4,7 @@ package server;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.Main;
+import com.Encryption;
 import com.Hash;
 
 // Class handles creating the different main threads
@@ -25,7 +26,11 @@ public class Server {
 	public Server(String _serverPort, String _serverHashedPassword, Main _mainInstance) {
 		instance = this;
 		mainInstance = _mainInstance;
+		
+		// TODO: Fix this. Better than nothing?
 		serverHashedPassword = Hash.hash(_serverHashedPassword);
+		Encryption.setKey(serverHashedPassword);
+		
 		System.out.println("password given: " + _serverHashedPassword + "\nserver password: " + serverHashedPassword);
 		
 		serverPort = Integer.parseInt(_serverPort);

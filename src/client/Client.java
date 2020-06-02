@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.net.Socket;
 import com.Main;
+import com.Encryption;
 import com.Hash;
 
 
@@ -25,7 +26,10 @@ public class Client {
 	public Client(String _serverIp, String _serverPort, String _serverHashedPassword, Main _main) {
 		instance = this;
 		mainInstance = _main;
+		
+		// TODO: Fix this. Better than nothing?
 		serverHashedPassword = Hash.hash(_serverHashedPassword);
+		Encryption.setKey(serverHashedPassword);
 		
 		serverIp = _serverIp;
 		serverPort = Integer.parseInt(_serverPort);

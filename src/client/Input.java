@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.Encryption;
 import com.Main;
 
 // Handles user input to server
@@ -28,13 +29,13 @@ public class Input implements Runnable {
 		if (Client.instance.getSocket() != null && br != null && pr != null) {
 			try {
 				// Send user input password
-				pr.println("/auth " + Client.instance.getServerHashedPassword());
+				pr.println(Encryption.encrypt("/auth " + Client.instance.getServerHashedPassword()));
 				
 				// Send color info
 				if (Client.instance.getMain().getTerm().getColorsEnabled()) {
-					pr.println("/colors yes");
+					pr.println(Encryption.encrypt("/colors yes"));
 				} else {
-					pr.println("/colors no");
+					pr.println(Encryption.encrypt("/colors no"));
 				}
 			} catch (Exception e) {
 				System.out.println("Error sending intial info. Client settings will default: " + e);
@@ -45,11 +46,11 @@ public class Input implements Runnable {
 			try {
 				String msg = br.readLine(); // read user input (loop)
 				if (msg.contentEquals("/quit")) {
-					pr.println(msg);
+					pr.println(Encryption.encrypt(msg));
 					System.out.println("Quitting...");
 					Client.instance.kill();
 				} else {
-					pr.println(msg); // send input to server
+					pr.println(Encryption.encrypt(msg)); // send input to server
 				}
 			} catch (Exception e) {}
 		}

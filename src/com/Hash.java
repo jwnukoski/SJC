@@ -3,7 +3,6 @@ package com;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
-// Only used for server password
 public class Hash {
 	public static String hash(String _input) {
 		try {
@@ -14,15 +13,6 @@ public class Hash {
 			System.out.println("Hash error: " + e);
 			return "";
 		}
-	}
-	
-	// _input must be raw and _answer hashed
-	public static boolean checkHash(String _input, String _answer) {
-		String hashedInput = hash(_input);
-		if (hashedInput.contentEquals(_answer))
-			return true;
-		else
-			return false;
 	}
 	
 	private static String bytesToHex(byte[] hash) {

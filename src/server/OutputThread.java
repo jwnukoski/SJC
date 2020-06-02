@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.Encryption;
 import com.Main;
 
 // Thread for every client
@@ -59,13 +60,13 @@ public class OutputThread implements Runnable {
 
 								// try to print in color
 								try {
-									pw.println(fromColorScheme + from + ": " + msg + ANSI_RESET);
+									pw.println(Encryption.encrypt(fromColorScheme + from + ": " + msg + ANSI_RESET));
 								} catch (Exception e) {}
 							} else {
 								// no color
 								// try to print no color
 								try {
-									pw.println(from + ": " + msg);
+									pw.println(Encryption.encrypt(from + ": " + msg));
 								} catch (Exception e) {}
 							}
 						}
@@ -95,7 +96,7 @@ public class OutputThread implements Runnable {
 			// Print server messages
 			for (int i = 0; i < serverMsgs.length; i++) {
 				if (serverMsgs[i] != null) {
-					pw.println("SERVER MESSAGE: " + serverMsgs[i]);
+					pw.println(Encryption.encrypt("SERVER MESSAGE: " + serverMsgs[i]));
 					serverMsgs[i] = null;
 				}
 			}
