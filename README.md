@@ -8,11 +8,17 @@ Basic functionality has only be created.
 - Encryption / passwords.
 
 ## Examples:
-Create a server on port 4203 with debug and terminal colors enabled:
-java -jar sjc.jar --server 4203 --debug --colors
+Create a password protected server on port 4203 with debug and terminal colors enabled:
 
-Join a server with colors enabled at IP 192.168.1.2 port 4203:
-java -jar sjc.jar --client 192.168.1.2 4203 --colors
+java -jar sjc.jar --server 4203 MyPassword --debug --colors
+
+java -jar sjc.jar --server [server port] [server password] [--debug] [--colors]
+
+Join a password protected server with colors enabled at IP 192.168.1.2 port 4203:
+
+java -jar sjc.jar --client 192.168.1.2 4203 MyPassword --colors
+
+java -jar sjc.jar --client [server IP] [server port] [server password] [--colors]
 
 ## JAR Compiled and tested with:
 openjdk version "1.8.0_252"
