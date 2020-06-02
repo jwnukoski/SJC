@@ -4,8 +4,7 @@ Basic functionality has only be created.
 
 ## TODO:
 - More user commands.
-- General testing.
-- Encryption / passwords.
+- Encryption and Hashing needs fixed by someone more knowledgable. Currently passwords are compared by hashes. That hashed password is also used as the key to symetrically encrypt and decrypt messages.
 
 ## Examples:
 Create a password protected server on port 4203 with debug and terminal colors enabled:
