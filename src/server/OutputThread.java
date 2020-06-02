@@ -45,8 +45,8 @@ public class OutputThread implements Runnable {
 						String msg = msgs[i].getMsg();
 						String to = msgs[i].getTo();
 
-						// if message is to public or a PM
-						if (to.contentEquals("PUBLIC") || to.contentEquals(clientName)) {
+						// if message is to public or a PM, and if has been verified with server password
+						if ((to.contentEquals("PUBLIC") || to.contentEquals(clientName)) && client.getVerifiedPassword()) {
 						
 							// if colors are enabled
 							if (clientColorsEnabled && serverColorsEnabled) {

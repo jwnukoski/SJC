@@ -20,6 +20,7 @@ public class ClientData {
 	private boolean alive = true;
 	private int idleTime = 0;
 	private boolean isIdle = false;
+	private boolean verifiedPassword = false;
 
 	public ClientData(int _id, Socket _clientSocket, String _clientIpAddress) {
 		id = _id;
@@ -39,11 +40,6 @@ public class ClientData {
 
 		// Log IP
 		clientIpAddress = _clientIpAddress;
-
-		// Tell everyone
-		Server.instance.getFunctionsInstance().setClientName(name, this, false);
-		Server.instance.getFunctionsInstance().sendServerMsg(name + " has joined the sever.");
-
 	}
 	public String getName() {
 		return name;
@@ -99,13 +95,32 @@ public class ClientData {
 			idleTime = 0;
 		}
 	}
+	public boolean verifyPassword(String _input) {
+		if (!verifiedPassword) { 
+			if (_input.contentEquals(Server.instance.getHashedPassword())) {
+				verifiedPassword = true;
+				Server.instance.getFunctionsInstance().setClientName(name, this, false);
+				Server.instance.getMain().getTerm().debug("Authenticated user from IP: " + clientIpAddress);
+			} else {
+				Server.instance.getMain().getTerm().debug("Bad password from IP: " + clientIpAddress);
+				this.kill();
+			}
+		}
+		return verifiedPassword;
+	}
+	public boolean getVerifiedPassword() {
+		return verifiedPassword;
+	}
 	public boolean getIdle() {
 		return isIdle;
 	}
 	public void kill() {
 		if (alive) {
 			alive = false;
-			Server.instance.getFunctionsInstance().sendServerMsg(name + " has disconnected.");
+			
+			if (verifiedPassword)
+				Server.instance.getFunctionsInstance().sendServerMsg(name + " has disconnected.");
+			
 			Server.instance.getFunctionsInstance().killClient(id); // make to sure remove from process list
 
 			try {
@@ -118,6 +133,7 @@ public class ClientData {
 			name = "";
 			clientIpAddress = "";
 			colorId = 0;
+			verifiedPassword = false;
 
 			inputThread.kill();
 			inputThread = null;

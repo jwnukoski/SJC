@@ -27,6 +27,10 @@ public class Input implements Runnable {
 		// Send initial data like color setting
 		if (Client.instance.getSocket() != null && br != null && pr != null) {
 			try {
+				// Send user input password
+				pr.println("/auth " + Client.instance.getServerHashedPassword());
+				
+				// Send color info
 				if (Client.instance.getMain().getTerm().getColorsEnabled()) {
 					pr.println("/colors yes");
 				} else {
@@ -41,6 +45,7 @@ public class Input implements Runnable {
 			try {
 				String msg = br.readLine(); // read user input (loop)
 				if (msg.contentEquals("/quit")) {
+					pr.println(msg);
 					System.out.println("Quitting...");
 					Client.instance.kill();
 				} else {

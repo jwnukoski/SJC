@@ -1,15 +1,15 @@
 package com;
 
-// Help doc
+// Help doc prior to joining a server
 public class Help {
 	private static final String genHelpMsg = "Use --help to view the help doc.";
 	private static final String helpDoc = "Client Usage:"
 			+ "\n"
-			+ "--client [server ip] [server port] [username]"
+			+ "--client [server ip] [server port] [server password] [your username]"
 			+ "\n\n"
 			+ "Server Usage:"
 			+ "\n"
-			+ "--server [server port]"
+			+ "--server [server port] [server password]"
 			+ "\n"
 			+ "--colors (Default is disabled, use to enable)"
 			+ "\n"

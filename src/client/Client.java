@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.net.Socket;
 import com.Main;
+import com.Hash;
 
 
 public class Client {
@@ -19,9 +20,12 @@ public class Client {
 	
 	private Socket socket = null;
 	
-	public Client(String _serverIp, String _serverPort, Main _main) {
+	private String serverHashedPassword = "";
+	
+	public Client(String _serverIp, String _serverPort, String _serverHashedPassword, Main _main) {
 		instance = this;
 		mainInstance = _main;
+		serverHashedPassword = Hash.hash(_serverHashedPassword);
 		
 		serverIp = _serverIp;
 		serverPort = Integer.parseInt(_serverPort);
@@ -31,7 +35,7 @@ public class Client {
 		while (true) {
 			try {
 				socket = new Socket(serverIp, serverPort);
-				System.out.println("Successfully connected to: " + serverIp + ":" + serverPort);
+				System.out.println("Connection established to: " + serverIp + ":" + serverPort);
 				break;
 			} catch (Exception e) {
 				System.out.println("\nCannot connect to: " + serverIp + ":" + serverPort + ". Is the server up?\n" + e + "\nTrying again in 10 seconds.\n");
@@ -84,6 +88,10 @@ public class Client {
 	}
 	public Socket getSocket() {
 		return socket;
+	}
+	public String getServerHashedPassword() {
+		// returns what the user input as the server password. may not be actual password
+		return serverHashedPassword;
 	}
 	public Main getMain() {
 		// here so we don't have to import main to every class using terminal

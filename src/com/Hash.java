@@ -3,13 +3,15 @@ package com;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
+// Only used for server password
 public class Hash {
 	public static String hash(String _input) {
 		try {
-			final MessageDigest digest = MessageDigest.getInstance("SHA3_256");
+			final MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			final byte[] hashbytes = digest.digest(_input.getBytes(StandardCharsets.UTF_8));
 			return bytesToHex(hashbytes);
 		} catch (Exception e) {
+			System.out.println("Hash error: " + e);
 			return "";
 		}
 	}

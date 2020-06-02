@@ -10,7 +10,9 @@ public class Functions {
 	private final Command[] commands = {new Command("/name", "Set your username. Ex: /name John. Type just /name to get your current name."),
 			new Command("/help", "Get a list of user commands."),
 			new Command("/colors", "Enables or disables terminal colors. Ex: /colors yes, /colors no"),
-			new Command("/pm", "Send a personal message to a user. Ex: /pm JohnSmith My message.")};
+			new Command("/pm", "Send a personal message to a user. Ex: /pm JohnSmith My message."),
+			new Command("/auth", "Only used at initial connection to verify server password."),
+			new Command("/quit", "Leave the sever in a clean way.")};
 	private String helpDoc = "\nHelp Documentation:\n";
 
 	public Functions() {
@@ -85,6 +87,25 @@ public class Functions {
 	}
 	public boolean processCommand(String _msg, ClientData _client) {
 		// User command processing
+
+		// Don't bother unless authenticated with server password
+		if (!_client.getVerifiedPassword()) {
+			if (_msg.startsWith("/auth")) {
+				// check password
+				String inputPass = _msg.substring(6, _msg.length());
+				boolean verified = _client.verifyPassword(inputPass);
+				if (verified) {
+					// print welcome messages
+					sendMsg(Server.instance.getWelcomeMessage(), _client.getName(), _client);
+					sendServerMsg(_client.getName() + " joined the server.");
+				}
+				return verified;
+			} else {
+				return false;
+			}
+		}
+		
+		// All other commands
 		if (_msg.startsWith("/name") && _msg.trim().length() > 5) {
 			// Change name of client, must be unique. Append number if not.
 			String name = _msg.substring(6, _msg.length());
@@ -114,6 +135,11 @@ public class Functions {
 			if (nameExists(toUser)) {
 				sendMsg(pm, toUser, _client);
 			}
+			return true;
+		} else if (_msg.startsWith("/quit")) {
+			// User leaving server in a clean way.
+			sendServerMsg(_client.getName() + " is leaving the server.");
+			_client.kill();
 			return true;
 		}
 		return true;

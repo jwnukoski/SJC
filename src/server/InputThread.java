@@ -32,14 +32,11 @@ public class InputThread implements Runnable {
 				Server.instance.getMain().getTerm().debug("Client print writer failed to start in input thread: " + e);
 			}
 
-			// Welcome message
-			pw.println("Welcome!\nUse /help for commands.");
-
 			while (client != null && client.getSocket() != null && client.getAlive()) {
 				try {
 					String clientMsg = br.readLine(); // Read client messages
 					if (clientMsg != null) {
-						System.out.println(clientMsg);
+						Server.instance.getMain().getTerm().debug("Client: " + client.getName() + ". Sent message: " + clientMsg);
 						if (Server.instance.getFunctionsInstance().isCommand(clientMsg)) {
 							client.processIdle(false); // reset idle time
 							Server.instance.getFunctionsInstance().processCommand(clientMsg, client); // send command
