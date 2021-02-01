@@ -1,10 +1,11 @@
 # SJC
 Simple Java Chatroom
-Basic functionality has only be created.
+
+# Purpose
+Provide command line based chat rooms with private messaging, and encyption, written in Java.
 
 ## TODO:
 - More user commands.
-- Encryption and Hashing needs fixed by someone more knowledgable. Currently passwords are compared by hashes. That hashed password is also used as the key to symetrically encrypt and decrypt messages.
 
 ## Examples:
 Create a password protected server on port 4203 with debug and terminal colors enabled:
