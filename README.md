@@ -1,5 +1,6 @@
 # SJC
 Simple Java Chatroom
+[SJC](https://i.imgur.com/lznh20a.gifv)
 
 # Purpose
 Provide command line based chat rooms with private messaging, and encyption, written in Java.
