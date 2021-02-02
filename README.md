@@ -1,5 +1,5 @@
 # SJC
-Simple Java Chatroom
+Simple Java Chatroom  
 ![Preview of SJC](https://i.imgur.com/lznh20a.gif "SJC Demo")
 
 # Purpose
