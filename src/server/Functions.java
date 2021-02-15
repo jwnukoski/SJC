@@ -2,7 +2,6 @@ package server;
 
 import java.net.Socket;
 import java.util.Random;
-import com.Main;
 
 // Runs back-end processing
 public class Functions {
@@ -31,9 +30,8 @@ public class Functions {
 					// Private messages and public messages
 					boolean sent = clients[i].sendMsg(_msg, _to, _from);
 
-					// needed?
 					if (!sent) {
-						// message wasn't added to client queue, remove client?
+						// message wasn't added to client queue, remove client
 						killClient(i);
 					}
 				}
@@ -76,7 +74,6 @@ public class Functions {
 		return false;
 	}
 	public void kill() {
-		// clear clients
 		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null) {
 				clients[i].kill();
@@ -86,14 +83,13 @@ public class Functions {
 		clients = null;
 	}
 	public boolean processCommand(String _msg, ClientData _client) {
-		// User command processing
-
-		// Don't bother unless authenticated with server password
+		// User command processing. Don't bother unless authenticated with server password
 		if (!_client.getVerifiedPassword()) {
 			if (_msg.startsWith("/auth")) {
 				// check password
 				String inputPass = _msg.substring(6, _msg.length());
 				boolean verified = _client.verifyPassword(inputPass);
+				
 				if (verified) {
 					// print welcome messages
 					sendMsg(Server.instance.getWelcomeMessage(), _client.getName(), _client);
@@ -107,37 +103,31 @@ public class Functions {
 		
 		// All other commands
 		if (_msg.startsWith("/name") && _msg.trim().length() > 5) {
-			// Change name of client, must be unique. Append number if not.
 			String name = _msg.substring(6, _msg.length());
 			return setClientName(name, _client, true);
 		} else if (_msg.contentEquals("/name")) {
-			// Send clients name to them
 			sendMsg("Your name is: " + _client.getName() + ".", _client.getName(), _client);
 		} else if (_msg.contentEquals("/help")) {
-			// display help info to client only
 			sendMsg(helpDoc, _client.getName(), _client);
 			return true;
 		} else if (_msg.contentEquals("/colors no")) {
-			// turn terminal colors off for client
 			_client.setColorsEnabled(false);
 			sendMsg("Colors disabled.", _client.getName(), _client);
 			return true;
 		} else if (_msg.contentEquals("/colors yes")) {
-			// turn terminal colors on for client
 			_client.setColorsEnabled(true);
 			sendMsg("Colors enabled.", _client.getName(), _client);
 			return true;
 		} else if (_msg.length() > 3 && _msg.startsWith("/pm")) {
-			// send personal message
 			String[] split = _msg.split(" ");
 			String toUser = split[1];
 			String pm = _msg.substring((4 + toUser.length()), _msg.length());
+			
 			if (nameExists(toUser)) {
 				sendMsg(pm, toUser, _client);
 			}
 			return true;
 		} else if (_msg.startsWith("/quit")) {
-			// User leaving server in a clean way.
 			sendServerMsg(_client.getName() + " is leaving the server.");
 			_client.kill();
 			return true;
@@ -146,14 +136,14 @@ public class Functions {
 	}
 	public boolean setClientName(String _newName, ClientData _client, boolean _sendServerMsg) {
 		// Change name of client, must be unique. Append number if not.
-		// Public so ClientData can check name soon after join
-		_newName = _newName.replaceAll("\\s+",""); // remove white space
+		_newName = _newName.replaceAll("\\s+","");
 		try {
 			String oldName = _client.getName();
 			while (nameExists(_newName)) {
 				_newName += getRandomNameId();
 			}
 			_client.setName(_newName);
+			
 			if (_sendServerMsg) {
 				sendServerMsg(oldName + " changed their name to " + _newName);
 			}
@@ -161,7 +151,6 @@ public class Functions {
 		return true;
 	}
 	private boolean nameExists(String _nameToCheck) {
-		// Checks to see if the name for the client already exists
 		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] != null) {
 				final String clientName = clients[i].getName();

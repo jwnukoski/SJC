@@ -10,7 +10,6 @@ public class ClientHandler implements Runnable {
 	
 	public ClientHandler() {}
 	public void run() {
-		// Create listening socket
 		while (serverSocket == null) {
 			try {
 				serverSocket = new ServerSocket(Server.instance.getServerPort());
@@ -18,8 +17,8 @@ public class ClientHandler implements Runnable {
 
 				while (alive) {
 					try {
-						Socket clientSocket = serverSocket.accept(); // new socket
-						Server.instance.getFunctionsInstance().addClient(clientSocket, clientSocket.getRemoteSocketAddress().toString()); // add to clients list in functions, and create everything
+						Socket clientSocket = serverSocket.accept();
+						Server.instance.getFunctionsInstance().addClient(clientSocket, clientSocket.getRemoteSocketAddress().toString());
 					} catch (Exception e) {
 						Server.instance.getMain().getTerm().debug("Client accept failed: " + e);
 					}
@@ -32,6 +31,7 @@ public class ClientHandler implements Runnable {
 				}
 			} catch (Exception e) {
 				Server.instance.getMain().getTerm().debug("Problem with opening socket on port " + Server.instance.getServerPort() + ". Trying again in ~10 secs...");
+				
 				try {
 					Thread.sleep(10000);
 				} catch (InterruptedException e1) {
@@ -42,6 +42,7 @@ public class ClientHandler implements Runnable {
 	}
 	protected void finalize() {
 		alive = false;
+		
 		try {
 			serverSocket.close();
 		} catch (Exception e) {

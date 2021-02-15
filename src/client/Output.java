@@ -34,7 +34,6 @@ public class Output implements Runnable {
 	
 	protected void finalize() {
 		br = null;
-		
 		Client.instance.kill();
 	}
 }

@@ -6,13 +6,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import com.Encryption;
-import com.Main;
 
 // Thread for every client
 // Reads client messages and sends them to the server
 public class InputThread implements Runnable {
 	private ClientData client = null;
 	private BufferedReader br = null;
+	@SuppressWarnings("unused")
 	private PrintWriter pw = null;
 	private boolean alive = true;
 
@@ -61,7 +61,6 @@ public class InputThread implements Runnable {
 	protected void finalize() {
 		alive = false;
 		
-		// make sure client dies
 		try {
 			Server.instance.getFunctionsInstance().killClient(client.getId());
 		} catch (Exception e) {}

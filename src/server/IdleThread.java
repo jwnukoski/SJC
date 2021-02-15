@@ -1,23 +1,18 @@
 package server;
 
-import java.io.IOException;
-
 // This class just checks processes idle time.
 // Idle time is reset at every command/message in InputThread
 public class IdleThread implements Runnable {
 	private ClientData client = null;
 	private boolean alive = true;
-	private Functions functionsInstance = Server.instance.getFunctionsInstance();
 	
 	public IdleThread(ClientData _client) {
 		client = _client;
 	}
 	public void run() {
 		while (alive && client != null) {
-			// tick idle time
 			client.processIdle(true);
 			
-			// slow down, may need to lower for busier servers
 			try {
 				Thread.sleep(1000);
 			} catch (Exception e) {

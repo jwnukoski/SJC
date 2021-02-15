@@ -13,11 +13,11 @@ public class Server {
 	public static final int maxConnections = 100;
 	public static final int messageInterval = 1000;
 	public static final int clientMsgQueue = 100;
-	public static final int clientIdleTime = 900; // about 15 minutes
+	public static final int clientIdleTime = 900;
 	public static Server instance = null;
 	private int serverPort = 0;
-	private ClientHandler clientHandlerInstance = null; // dishes out the client threads
-	private Functions functionsInstance = null; // back-end processes
+	private ClientHandler clientHandlerInstance = null;
+	private Functions functionsInstance = null;
 	private ExecutorService exSrv = Executors.newCachedThreadPool();
 	private Main mainInstance = null;
 	private String serverHashedPassword = "";
@@ -27,7 +27,6 @@ public class Server {
 		instance = this;
 		mainInstance = _mainInstance;
 		
-		// TODO: Fix this. Better than nothing?
 		serverHashedPassword = Hash.hash(_serverHashedPassword);
 		Encryption.setKey(serverHashedPassword);
 		
@@ -38,7 +37,6 @@ public class Server {
 		
 		functionsInstance = new Functions();
 		
-		// Thread handles client connections then makes their individual threads
 		clientHandlerInstance = new ClientHandler();
 		exSrv.submit(clientHandlerInstance);
 	}
@@ -74,14 +72,10 @@ public class Server {
 		return welcomeMessage;
 	}
 	public Main getMain() {
-		// here so we don't have to import main to every class using terminal
-		// Client.getMain().getTerm().print();
-		// Client.getMain().getTerm().debug();
 		return mainInstance;
 	}
 	public void sendServerMsg(String _msg) {
 		// send a message to all connected clients
-		
 	}
 	public void kill() {
 		this.finalize();

@@ -11,23 +11,18 @@ import com.Hash;
 public class Client {
 	public static Client instance = null;
 	private Main mainInstance = null;
-	
 	private String serverIp = "";
 	private int serverPort = 0;
-	
 	private Input requestsInstance = null;
 	private Output notificationsInstance = null;
 	private ExecutorService exSrv = Executors.newCachedThreadPool();
-	
 	private Socket socket = null;
-	
 	private String serverHashedPassword = "";
 	
 	public Client(String _serverIp, String _serverPort, String _serverHashedPassword, Main _main) {
 		instance = this;
 		mainInstance = _main;
 		
-		// TODO: Fix this. Better than nothing?
 		serverHashedPassword = Hash.hash(_serverHashedPassword);
 		Encryption.setKey(serverHashedPassword);
 		
@@ -35,7 +30,6 @@ public class Client {
 		serverPort = Integer.parseInt(_serverPort);
 		System.out.println("Accepted: Server IP: " + serverIp + ", Server Port: " + serverPort);
 		
-		// Handles the connection to the server
 		while (true) {
 			try {
 				socket = new Socket(serverIp, serverPort);
@@ -51,7 +45,6 @@ public class Client {
 			}
 		}
 
-		// Start threads
 		requestsInstance = new Input();
 		exSrv.submit(requestsInstance);
 		notificationsInstance = new Output();
@@ -59,6 +52,7 @@ public class Client {
 	}
 	protected void finalize() {
 		System.out.println("Stopping system.");
+		
 		try {
 			socket.close();
 		} catch (Exception e) {
@@ -94,13 +88,9 @@ public class Client {
 		return socket;
 	}
 	public String getServerHashedPassword() {
-		// returns what the user input as the server password. may not be actual password
 		return serverHashedPassword;
 	}
 	public Main getMain() {
-		// here so we don't have to import main to every class using terminal
-		// Client.getMain().getTerm().print();
-		// Client.getMain().getTerm().debug();
 		return mainInstance;
 	}
 	public void kill() {

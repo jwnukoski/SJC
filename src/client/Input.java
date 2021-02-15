@@ -3,14 +3,12 @@ package client;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-
 import com.Encryption;
-import com.Main;
 
 // Handles user input to server
 public class Input implements Runnable {
-	private BufferedReader br = null; // reading user input
-	private PrintWriter pr = null; // sending message to server
+	private BufferedReader br = null;
+	private PrintWriter pr = null;
 	
 	public void run() {
 		try {
@@ -41,10 +39,11 @@ public class Input implements Runnable {
 				System.out.println("Error sending intial info. Client settings will default: " + e);
 			}
 		}
+		
 		// Main loop
 		while (Client.instance.getSocket() != null && br != null && pr != null) {
 			try {
-				String msg = br.readLine(); // read user input (loop)
+				String msg = br.readLine(); // user input
 				if (msg.contentEquals("/quit")) {
 					pr.println(Encryption.encrypt(msg));
 					System.out.println("Quitting...");
@@ -60,7 +59,6 @@ public class Input implements Runnable {
 	protected void finalize() {
 		br = null;
 		pr = null;
-		
-		Client.instance.kill(); // already called by output
+		Client.instance.kill();
 	}
 }

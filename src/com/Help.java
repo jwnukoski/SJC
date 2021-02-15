@@ -1,6 +1,5 @@
 package com;
 
-// Help doc prior to joining a server
 public class Help {
 	private static final String genHelpMsg = "Use --help to view the help doc.";
 	private static final String helpDoc = "Client Usage:"

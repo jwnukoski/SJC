@@ -9,9 +9,11 @@ public class Command {
 		cmdWord = _cmdWord;
 		description = _description;
 	}
+	
 	public String getCmdWord() {
 		return cmdWord;
 	}
+	
 	public String getDescription() {
 		return description;
 	}

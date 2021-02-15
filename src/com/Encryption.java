@@ -1,5 +1,5 @@
 package com;
-// https://howtodoinjava.com/security/java-aes-encryption-example/
+
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
@@ -12,14 +12,14 @@ public class Encryption {
     
     public static void setKey(String myKey) {
         MessageDigest sha = null;
+        
         try {
             key = myKey.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-256");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16); 
             secretKey = new SecretKeySpec(key, "AES");
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
         	System.out.println("Error in Ecryption: " + e);
         }
     }
@@ -32,6 +32,7 @@ public class Encryption {
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
         }
+        
         return null;
     }
  
@@ -43,6 +44,7 @@ public class Encryption {
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
         }
+        
         return null;
     }
 }
